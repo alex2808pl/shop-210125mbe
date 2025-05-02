@@ -1,8 +1,14 @@
 package de.telran.shop210125mbe.pojo;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
 import java.sql.Timestamp;
 import java.util.Objects;
 
+//@Component("carrot") - явно задаем имя переменной в контейнере
+@Component //по умолчанию имя переменной будут равно имени класса с маленькой буквы
 public class Product {
 
     private Long productId;
@@ -22,6 +28,16 @@ public class Product {
     private Timestamp updatedAt;
 
     private Long categoryId;
+
+    @PostConstruct //после создания
+    void init() {
+        System.out.println("+ Здесь мы можем выполнить какие действия после создания объекта, перед его использованием: "+this);
+    }
+
+    @PreDestroy //перед уничтожением
+    void destroy() {
+        System.out.println("- Здесь мы можем выполнить какие действия перед уничтожением бина: "+this);
+    }
 
     public Product() {
     }
