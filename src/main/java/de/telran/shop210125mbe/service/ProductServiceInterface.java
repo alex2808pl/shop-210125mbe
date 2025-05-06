@@ -7,4 +7,14 @@ import java.util.List;
 
 public interface ProductServiceInterface {
     List<Product> getAllProducts();
+
+    Product getProductById(Long productId);
+
+    Product insertProduct(Product newProduct);
+
+    Product updateProduct(Long id, Product updateProduct);
+
+    Product updatePartProduct(Long id, Product updateProduct);
+
+    void deleteProductById(Long id);
 }
