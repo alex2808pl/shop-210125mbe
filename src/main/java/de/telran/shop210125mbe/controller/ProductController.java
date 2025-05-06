@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     // удаление
-    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         System.out.println("Произошло удаление");
