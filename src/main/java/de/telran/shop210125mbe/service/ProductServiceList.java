@@ -61,17 +61,19 @@ public class ProductServiceList implements ProductServiceInterface {
     }
 
     @Override
-    public Product updatePartProduct(Long id, Product updateProduct) {
+    public Product updatePartProduct(Long id, Product updateProduct) throws Exception {
         for (Product product : localStorage) {
-            if(product.getProductId().equals(id))
+            if(product.getProductId().equals(id)) {
                 if (!product.getName().equals(updateProduct.getName()))
                     product.setName(updateProduct.getName());
                 if (product.getDescription() == null ||
                         !product.getDescription().equals(updateProduct.getDescription()))
                     product.setDescription(updateProduct.getDescription());
                 return product;
+            }
         }
-        return null;
+        // throw new Exception("При update не нашли продукт с id="+id);
+        throw new ArithmeticException("При update не нашли продукт с id="+id);
     }
 
     @Override

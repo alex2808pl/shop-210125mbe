@@ -14,7 +14,7 @@ public interface ProductServiceInterface {
 
     Product updateProduct(Long id, Product updateProduct);
 
-    Product updatePartProduct(Long id, Product updateProduct);
+    Product updatePartProduct(Long id, Product updateProduct) throws Exception;
 
     void deleteProductById(Long id);
 }

@@ -5,8 +5,10 @@ import de.telran.shop210125mbe.service.ProductServiceInterface;
 import de.telran.shop210125mbe.service.ProductServiceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -50,7 +52,7 @@ public class ProductController {
 
     // обновление части информации, если объекта не существует, новый не создаем
     @PatchMapping("/{id}")
-    public Product updatePartProduct(@PathVariable Long id, @RequestBody Product updateProduct) {
+    public Product updatePartProduct(@PathVariable Long id, @RequestBody Product updateProduct) throws Exception {
         System.out.println("Произошло редактирование части информации");
         return serviceProductList.updatePartProduct(id, updateProduct);
     }
@@ -61,5 +63,20 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         System.out.println("Произошло удаление");
         serviceProductList.deleteProductById(id);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class,FileNotFoundException.class})
+    //@ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("ProductController: "+exception.getMessage());
+
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(Exception.class) // обработчик для всех остальніх типов исключений
+    public String handleException(Exception exception) {
+        return  "ProductController(Exception): "+exception.getMessage();
+
     }
 }
