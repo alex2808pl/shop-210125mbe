@@ -4,6 +4,7 @@ import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.CategoryServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
+    @Qualifier("categoryJdbc")//("categoryServiceDbJdbc")//("categoryServiceList")
     private CategoryServiceInterface categoryServiceInterface;
 
     @GetMapping

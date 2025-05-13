@@ -73,10 +73,10 @@ public class ProductController {
 
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(Exception.class) // обработчик для всех остальніх типов исключений
-    public String handleException(Exception exception) {
-        return  "ProductController(Exception): "+exception.getMessage();
-
-    }
+//    @ResponseStatus(HttpStatus.CONFLICT)
+//    @ExceptionHandler(Exception.class) // обработчик для всех остальніх типов исключений
+//    public String handleException(Exception exception) {
+//        return  "ProductController(Exception): "+exception.getMessage();
+//
+//    }
 }

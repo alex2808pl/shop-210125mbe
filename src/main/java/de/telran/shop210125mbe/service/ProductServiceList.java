@@ -36,7 +36,7 @@ public class ProductServiceList implements ProductServiceInterface {
             if(product.getProductId().equals(productId))
                 return product;
         }
-        return null;
+        throw new NoSuchElementException("Product: Не найден элемент с id="+productId);
     }
 
     @Override

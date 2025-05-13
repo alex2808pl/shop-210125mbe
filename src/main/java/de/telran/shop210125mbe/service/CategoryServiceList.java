@@ -3,12 +3,18 @@ package de.telran.shop210125mbe.service;
 import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import jakarta.annotation.PostConstruct;
+import org.apache.coyote.BadRequestException;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NotContextException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+@Primary // при конфликте, когда создается несколько компонентов одного типа, выбирается этот
 @Service
+// имя компонента в контейнере по умолчанию "сategoryServiceList"
 public class CategoryServiceList implements CategoryServiceInterface{
     List<Category> localStorage = new ArrayList<>();
 
@@ -31,7 +37,7 @@ public class CategoryServiceList implements CategoryServiceInterface{
                 return category;
             }
         }
-        return null;
+        throw new NoSuchElementException("Category: Не найден элемент с id="+id);
     }
 
     @Override
