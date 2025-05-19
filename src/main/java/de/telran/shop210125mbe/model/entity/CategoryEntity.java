@@ -9,12 +9,13 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "Categories")
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 //@Getter
 //@Setter
 //@EqualsAndHashCode
 //@ToString
+@Builder
 public class CategoryEntity {
 
     @Id
