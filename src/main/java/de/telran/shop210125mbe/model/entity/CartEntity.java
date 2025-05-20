@@ -1,10 +1,7 @@
 package de.telran.shop210125mbe.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 //@EqualsAndHashCode
@@ -12,6 +9,8 @@ import lombok.Setter;
 //@Setter
 @Entity
 @Table(name = "Cart")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository //после Spring 6 или SpringBoot 3.0 и выше - можно не ставить эту аннотацию
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+
 }

@@ -1,8 +1,12 @@
 package de.telran.shop210125mbe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.telran.shop210125mbe.model.enums.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +14,9 @@ import java.util.Set;
 @Entity
 @Table(name="Users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserEntity {
     @Id //эта колонка должны быть уникальной в таблице и не повторяться
     @GeneratedValue(strategy = GenerationType.IDENTITY) // БД генерит уникальный Id
@@ -35,10 +42,13 @@ public class UserEntity {
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private CartEntity cart;
 
-    @ManyToMany
-    @JoinTable(name = "UsersAddresses",
-            joinColumns = @JoinColumn(name = "UserID"),
-            inverseJoinColumns = @JoinColumn(name = "AddressID"))
-    private Set<AddressEntity> addresses =  new HashSet<>();
+    @OneToMany(mappedBy = "user")//, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<FavoriteEntity> favorites = new HashSet<>();
+
+//    @ManyToMany
+//    @JoinTable(name = "UsersAddresses",
+//            joinColumns = @JoinColumn(name = "UserID"),
+//            inverseJoinColumns = @JoinColumn(name = "AddressID"))
+//    private Set<AddressEntity> addresses =  new HashSet<>();
 
 }

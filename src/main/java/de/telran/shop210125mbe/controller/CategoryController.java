@@ -3,6 +3,9 @@ package de.telran.shop210125mbe.controller;
 import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.CategoryServiceInterface;
+import jakarta.annotation.PostConstruct;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -13,12 +16,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/category")  //localhost:8080/category
+@RequestMapping(value = "/category") //localhost:8080/category
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
+//    public CategoryController(@Qualifier("categoryJdbc") CategoryServiceInterface categoryServiceInterface) {
+//        this.categoryServiceInterface = categoryServiceInterface;
+//    }
+
+    //@Autowired
     @Qualifier("categoryJdbc")//("categoryServiceDbJdbc")//("categoryServiceList")
-    private CategoryServiceInterface categoryServiceInterface;
+    private final CategoryServiceInterface categoryServiceInterface;
+
+    @PostConstruct
+    void init() {
+        System.out.println("создается объект CategoryController");
+    }
 
     @GetMapping
     public ResponseEntity<?> getAll() {

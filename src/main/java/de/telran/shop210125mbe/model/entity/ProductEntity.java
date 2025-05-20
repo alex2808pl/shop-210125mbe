@@ -10,8 +10,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "Products")
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 //@Getter
 //@Setter
 //@EqualsAndHashCode
@@ -50,8 +50,8 @@ public class ProductEntity {
     @JoinColumn(name = "CategoryID") // имя колонки для связи с CategoriesEntity
     private CategoryEntity category;
 
-//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-//    private Set<FavoritesEntity> favorites = new HashSet<>();
+    @OneToMany(mappedBy = "product")//, fetch = FetchType.LAZY)
+    private Set<FavoriteEntity> favorites = new HashSet<>();
 
 //    @ManyToMany
 //    @JoinTable(name = "category_product",

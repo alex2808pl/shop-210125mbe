@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Primary // при конфликте, когда создается несколько компонентов одного типа, выбирается этот
+//@Primary // при конфликте, когда создается несколько компонентов одного типа, выбирается этот
 @Service
 // имя компонента в контейнере по умолчанию "сategoryServiceList"
 public class CategoryServiceList implements CategoryServiceInterface{
