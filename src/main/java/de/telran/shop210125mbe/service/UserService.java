@@ -7,11 +7,12 @@ import de.telran.shop210125mbe.model.enums.Role;
 import de.telran.shop210125mbe.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // будет создан конструктор, аргументами которого будут переменные класса private final
@@ -92,5 +93,62 @@ public class UserService { //имя компонента по умолчанию
                 .build();
 
         return resultUserDto;
+    }
+
+    public UserDto getById(Long id) {
+        Optional<UserEntity> returnUserOptional = userRepository.findById(id);
+        // returnUser == null -> new UserEntity() = NPE не произойдет
+        UserEntity returnUserEntity = returnUserOptional.orElse(new UserEntity());
+
+        // Entity -> Dto
+        UserDto returnUserDto = UserDto.builder()
+                .userId(returnUserEntity.getUserId())
+                .email(returnUserEntity.getEmail())
+                .name(returnUserEntity.getName())
+                .role(returnUserEntity.getRole().toString())
+                .phoneNumber("Нет доступа")
+                .passwordHash("******")
+                .build();
+
+        return returnUserDto;
+     }
+
+    public UserDto getByEmail(String valueEmail) {
+        //Вызываем самостоятельно описанный метод из репозитория
+        UserEntity returnUserEntity = userRepository.findByEmailNativeQuery(valueEmail);
+
+        //Трансформируем в Dto
+        UserDto returnUserDto = UserDto.builder()
+                .userId(returnUserEntity.getUserId())
+                .email(returnUserEntity.getEmail())
+                .name(returnUserEntity.getName())
+                .role(returnUserEntity.getRole().toString())
+                .phoneNumber(returnUserEntity.getPhoneNumber())
+                .passwordHash("******")
+                .build();
+
+        return returnUserDto;
+    }
+
+    public List<UserDto> getByName(String valueName) {
+        //Вызываем самостоятельно описанный метод из репозитория
+        List<UserEntity> returnUsersEntity = userRepository.findByNameHql(valueName);
+
+        //Трансформируем в List Dto
+        List<UserDto> returnUsersDto =
+                returnUsersEntity.stream()
+                        .map(userEntity ->
+                                UserDto.builder()
+                                        .userId(userEntity.getUserId())
+                                        .email(userEntity.getEmail())
+                                        .name(userEntity.getName())
+                                        .role(userEntity.getRole().toString())
+                                        .phoneNumber(userEntity.getPhoneNumber())
+                                        .passwordHash("******")
+                                        .build())
+                        .collect(Collectors.toList());
+
+        return returnUsersDto;
+
     }
 }

@@ -2,10 +2,12 @@ package de.telran.shop210125mbe.controller;
 
 import de.telran.shop210125mbe.model.dto.UserDto;
 import de.telran.shop210125mbe.model.dto.UserShortDto;
+import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +19,30 @@ public class UserController {
 
     private final UserService userService; //используем прямой компонент без интерфейса (возможно)
 
+    // Для Клиента
     @GetMapping
     List<UserShortDto> getAll() {
         return userService.getAll();
     }
+
+    // Для Админа
+    @GetMapping("/{id}")  // http://localhost:8088/user/2
+    public  UserDto getById(@PathVariable Long id) {
+        UserDto responseUser = userService.getById(id);
+        return responseUser;
+    }
+
+    @GetMapping("/email/{valueEmail}")  // http://localhost:8088/user/email/a@i.com
+    public  UserDto getByEmail(@PathVariable String valueEmail) {
+        UserDto responseUser = userService.getByEmail(valueEmail);
+        return responseUser;
+    }
+
+    @GetMapping("/name/{valueName}")  // http://localhost:8088/user/email/a@i.com
+    public  List<UserDto> getByName(@PathVariable String valueName) {
+         return userService.getByName(valueName);
+    }
+
 
     // вставку
     @ResponseStatus(HttpStatus.CREATED)
