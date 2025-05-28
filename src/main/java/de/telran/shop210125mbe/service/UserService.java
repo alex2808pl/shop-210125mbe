@@ -151,4 +151,33 @@ public class UserService { //имя компонента по умолчанию
         return returnUsersDto;
 
     }
+
+    public UserShortDto updatePhoneNumber(Long id, String phone) {
+       int result  = userRepository.setPhoneNumber(id, phone);
+       if(result > 0) {
+            Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+           UserEntity userEntity = userEntityOptional.orElse(new UserEntity());
+           return UserShortDto.builder()
+                   .userId(userEntity.getUserId())
+                   .name(userEntity.getName())
+                   .email(userEntity.getEmail())
+                   .phoneNumber(userEntity.getPhoneNumber())
+                   .build();
+       }
+       return null;
+    }
+
+    public List<UserShortDto> getByNameAndEmail(String name, String valueEmail) {
+        List<UserEntity> userEntities = userRepository.findByNameContainingAndEmail(name, valueEmail);
+
+        return userEntities.stream()
+                .map(userEntity ->
+                        UserShortDto.builder()
+                                .userId(userEntity.getUserId())
+                                .email(userEntity.getEmail())
+                                .name(userEntity.getName())
+                                .phoneNumber(userEntity.getPhoneNumber())
+                                .build())
+                        .collect(Collectors.toUnmodifiableList());
+    }
 }

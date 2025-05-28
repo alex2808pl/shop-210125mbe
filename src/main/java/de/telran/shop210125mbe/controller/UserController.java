@@ -43,11 +43,23 @@ public class UserController {
          return userService.getByName(valueName);
     }
 
+    @GetMapping("/find")  // http://localhost:8088/user/find?name='Дуня'&email='d@i.com'
+    public  List<UserShortDto> getByNameAndEmail(@RequestParam String name, @RequestParam(name = "email") String valueEmail) {
+        List<UserShortDto> responseUsers = userService.getByNameAndEmail(name, valueEmail);
+        return responseUsers;
+    }
 
     // вставку
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public UserDto create(@RequestBody UserDto newUser) {
         return userService.create(newUser);
+    }
+
+    // обновление части информации, если объекта не существует, новый не создаем
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PatchMapping("/{id}") //http://localhost:8088/user/1?phone=+4901239876543&name=Odarka
+    public UserShortDto updatePartProduct(@PathVariable Long id, @RequestParam String phone) throws Exception {
+        return userService.updatePhoneNumber(id, phone);
     }
 }

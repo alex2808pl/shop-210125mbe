@@ -13,4 +13,5 @@ public class UserShortDto {
     private Long userId;
     private String name;
     private String email;
+    private String phoneNumber;
 }

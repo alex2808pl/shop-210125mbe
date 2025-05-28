@@ -15,9 +15,9 @@ public class AdviceController {
         return  exception.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(Exception.class) // обработчик для всех остальніх типов исключений
-    public String handleException(Exception exception) {
-        return  "Извините, что-то пошло не так! Попробуйте позже...("+exception.getMessage()+")";
-    }
+//    @ResponseStatus(HttpStatus.CONFLICT)
+//    @ExceptionHandler(Exception.class) // обработчик для всех остальніх типов исключений
+//    public String handleException(Exception exception) {
+//        return  "Извините, что-то пошло не так! Попробуйте позже...("+exception.getMessage()+")";
+//    }
 }
