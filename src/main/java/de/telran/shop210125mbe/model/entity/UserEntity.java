@@ -3,17 +3,18 @@ package de.telran.shop210125mbe.model.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.telran.shop210125mbe.model.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+//@Data
+@EqualsAndHashCode(exclude = "cart")
+@Getter
+@Setter
+@ToString(exclude = "cart")
 @Entity
 @Table(name="Users")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -43,6 +44,7 @@ public class UserEntity {
     private CartEntity cart;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.LAZY, orphanRemoval = true)
+//    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private Set<FavoriteEntity> favorites = new HashSet<>();
 
 //    @ManyToMany

@@ -4,6 +4,7 @@ import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import jakarta.annotation.PostConstruct;
 import org.apache.coyote.BadRequestException;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class CategoryServiceList implements CategoryServiceInterface{
 
     @PostConstruct
     void init() {
+        System.out.println("++ init CategoryServiceList");
         localStorage.add(new Category(1L, "Продукты"));
         localStorage.add(new Category(2L, "Быт.химия"));
         localStorage.add(new Category(3L, "Молочные продукты"));

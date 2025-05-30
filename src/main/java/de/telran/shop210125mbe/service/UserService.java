@@ -1,17 +1,28 @@
 package de.telran.shop210125mbe.service;
 
+import de.telran.shop210125mbe.configure.MapperUtil;
+import de.telran.shop210125mbe.mapper.Mappers;
+import de.telran.shop210125mbe.model.dto.CartDto;
+import de.telran.shop210125mbe.model.dto.FavoriteDto;
 import de.telran.shop210125mbe.model.dto.UserDto;
 import de.telran.shop210125mbe.model.dto.UserShortDto;
+import de.telran.shop210125mbe.model.entity.CartEntity;
+import de.telran.shop210125mbe.model.entity.FavoriteEntity;
 import de.telran.shop210125mbe.model.entity.UserEntity;
 import de.telran.shop210125mbe.model.enums.Role;
+import de.telran.shop210125mbe.repository.CartRepository;
+import de.telran.shop210125mbe.repository.FavoriteRepository;
 import de.telran.shop210125mbe.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +36,11 @@ public class UserService { //имя компонента по умолчанию
 
     // @Autowired // DI через поле (переменная) (обязательно)
     private final UserRepository userRepository;
+    private final FavoriteRepository favoriteRepository;
+    private final CartRepository cartRepository;
+
+    private final ModelMapper modelMapper;
+    private final Mappers mappers;
 
 
 //    @Autowired // DI через setter (обязательна)
@@ -53,6 +69,14 @@ public class UserService { //имя компонента по умолчанию
                 .build();
 
         userEntity2 = userRepository.save(userEntity2);
+
+        FavoriteEntity favoriteEntity = new FavoriteEntity();
+        favoriteEntity.setUser(userEntity2);
+        favoriteEntity = favoriteRepository.save(favoriteEntity);
+
+        CartEntity cartEntity = new CartEntity();
+        cartEntity.setUser(userEntity2);
+        cartEntity = cartRepository.save(cartEntity);
     }
 
     public List<UserShortDto> getAll() {
@@ -100,15 +124,36 @@ public class UserService { //имя компонента по умолчанию
         // returnUser == null -> new UserEntity() = NPE не произойдет
         UserEntity returnUserEntity = returnUserOptional.orElse(new UserEntity());
 
+        UserDto returnUserDto = null;
+        returnUserDto = mappers.convertToUserDto(returnUserEntity);
+
         // Entity -> Dto
-        UserDto returnUserDto = UserDto.builder()
-                .userId(returnUserEntity.getUserId())
-                .email(returnUserEntity.getEmail())
-                .name(returnUserEntity.getName())
-                .role(returnUserEntity.getRole().toString())
-                .phoneNumber("Нет доступа")
-                .passwordHash("******")
-                .build();
+//        returnUserDto = UserDto.builder()
+//                .userId(returnUserEntity.getUserId())
+//                .email(returnUserEntity.getEmail())
+//                .name(returnUserEntity.getName())
+//                .role(returnUserEntity.getRole().toString())
+//                .phoneNumber("Нет доступа")
+//                .passwordHash("******")
+//                .build();
+
+//        // UserDto::setPasswordHash - возьми тело этого метода и подставь как реализацию метода, опубликованного в функциональном интерфейсе
+//        modelMapper.typeMap(UserEntity .class, UserDto.class)
+//                //.addMappings(mapper -> mapper.skip((userDto, userEntity)-> userDto.setPasswordHash(((UserEntity)userEntity).getPasswordHash()))); // исключаем этот метод из работы
+//                .addMappings(mapper -> mapper.skip(UserDto::setEmail)); // исключаем этот метод из работы
+//        modelMapper.typeMap(UserEntity .class, UserDto.class)
+//                //.addMappings(mapper -> mapper.skip((userDto, userEntity)-> userDto.setPasswordHash(((UserEntity)userEntity).getPasswordHash()))); // исключаем этот метод из работы
+//                .addMappings(mapper -> mapper.skip(UserDto::setFavorites));
+//        returnUserDto = modelMapper.map(returnUserEntity, UserDto.class); //автомат
+//        returnUserDto.setPasswordHash("****"); //изменить уже созданный объект
+//
+//        if(returnUserEntity.getFavorites()!=null && returnUserEntity.getFavorites().size()>0) {
+//            Set<FavoriteDto> favoriteDtoSet = returnUserEntity.getFavorites()
+//                    .stream()
+//                    .map(favoriteEntity -> modelMapper.map(favoriteEntity, FavoriteDto.class))
+//                    .collect(Collectors.toSet());
+//            returnUserDto.setFavorites(favoriteDtoSet);
+//        }
 
         return returnUserDto;
      }

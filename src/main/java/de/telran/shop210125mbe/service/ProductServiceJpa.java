@@ -4,10 +4,12 @@ import de.telran.shop210125mbe.model.entity.CategoryEntity;
 import de.telran.shop210125mbe.model.entity.ProductEntity;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.repository.CategoryRepository;
+import de.telran.shop210125mbe.repository.FavoriteRepository;
 import de.telran.shop210125mbe.repository.ProductRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@DependsOn("categoryServiceList") //перед созданием этого компонента нужно создать указанный
 public class ProductServiceJpa implements ProductServiceInterface{
 
    // @Autowired
@@ -25,8 +28,10 @@ public class ProductServiceJpa implements ProductServiceInterface{
    // @Autowired
     private final CategoryRepository categoryRepository;
 
+
     @PostConstruct
     void init() {
+        System.out.println("++ init ProductServiceJpa");
         // создадим категорию
         //Builder
         CategoryEntity category1 = CategoryEntity.builder()
