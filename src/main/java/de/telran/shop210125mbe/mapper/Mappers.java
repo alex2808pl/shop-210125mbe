@@ -23,15 +23,17 @@ public class Mappers {
 //        modelMapper.typeMap(UsersEntity.class, UserDto.class)
 //                .addMappings(mapper -> mapper.skip(UserDto::setEmail)); // исключаем этот метод из работы
         UserDto userDto = modelMapper.map(usersEntity, UserDto.class); //автомат
+
         if (userDto.getPasswordHash()!=null)
             userDto.setPasswordHash("***"); // замещаем данных
 
-        // преобразовываем
-        if (usersEntity.getFavorites()!=null) {
+        // преобразовываем вручную
+        if (usersEntity.getFavorites()!=null && usersEntity.getFavorites().size() > 0) {
             Set<FavoriteDto> favoritesDtoSet = MapperUtil.convertSet(usersEntity.getFavorites(), this::convertToFavoriteDto);
             userDto.setFavorites(favoritesDtoSet);
         }
 
+        // преобразовываем вручную
         CartDto cartDto = convertToCartDto(usersEntity.getCart()); // второй связанный объект
         userDto.setCart(cartDto);
         return userDto;
@@ -49,5 +51,11 @@ public class Mappers {
             cartDto = modelMapper.map(cartEntity, CartDto.class); //автомат
         return cartDto;
     }
+
+    public UserEntity convertToUserEntity(UserDto userDto) {
+        UserEntity usersEntity = modelMapper.map(userDto, UserEntity.class); //автомат
+        return usersEntity;
+    }
+
 
 }

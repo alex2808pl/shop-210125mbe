@@ -15,6 +15,7 @@ import de.telran.shop210125mbe.repository.FavoriteRepository;
 import de.telran.shop210125mbe.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -97,24 +98,26 @@ public class UserService { //имя компонента по умолчанию
         if(newUserDto.getUserId()!=null)
             throw new IllegalArgumentException("userId должен быть неопределен");
 
-        UserEntity userEntity = UserEntity.builder()
-                .phoneNumber(newUserDto.getPhoneNumber())
-                .passwordHash(newUserDto.getPasswordHash())
-                .email(newUserDto.getEmail())
-                .name(newUserDto.getName())
-                .role(Role.valueOf(newUserDto.getRole()))
-                .build();
+        UserEntity userEntity = mappers.convertToUserEntity(newUserDto);
+//        UserEntity userEntity = UserEntity.builder()
+//                .phoneNumber(newUserDto.getPhoneNumber())
+//                .passwordHash(newUserDto.getPasswordHash())
+//                .email(newUserDto.getEmail())
+//                .name(newUserDto.getName())
+//                .role(Role.valueOf(newUserDto.getRole()))
+//                .build();
 
         userEntity = userRepository.save(userEntity);
 
-        UserDto resultUserDto= UserDto.builder()
-                .phoneNumber(userEntity.getPhoneNumber())
-                .passwordHash("****")
-                .email(userEntity.getEmail())
-                .name(userEntity.getName())
-                .role(userEntity.getRole().toString())
-                .userId(userEntity.getUserId())
-                .build();
+        UserDto resultUserDto =  mappers.convertToUserDto(userEntity);
+//                UserDto resultUserDto= UserDto.builder()
+//                .phoneNumber(userEntity.getPhoneNumber())
+//                .passwordHash("****")
+//                .email(userEntity.getEmail())
+//                .name(userEntity.getName())
+//                .role(userEntity.getRole().toString())
+//                .userId(userEntity.getUserId())
+//                .build();
 
         return resultUserDto;
     }
@@ -224,5 +227,43 @@ public class UserService { //имя компонента по умолчанию
                                 .phoneNumber(userEntity.getPhoneNumber())
                                 .build())
                         .collect(Collectors.toUnmodifiableList());
+    }
+
+
+    public UserDto update(UserDto newUserDto) {
+        // PUT - обновляет или создает новый
+        if(newUserDto.getUserId()==null)
+            throw new IllegalArgumentException("userId должен быть определен!");
+
+        UserEntity userEntity = mappers.convertToUserEntity(newUserDto);
+
+        // Id имеет значение, поэтому на БД выполниться операция UPDATE
+        try {
+            userEntity = userRepository.save(userEntity);
+            //ObjectOptimisticLockingFailureException | StaleObjectStateException
+        } catch (Exception e) {
+            // если объект с таким Id отсутствует, согласно REST API
+            // мы должны создать новый объект вручную, если не противоречит ТЗ???
+            userEntity.setUserId(null);
+            userEntity = userRepository.save(userEntity);
+        }
+
+        UserDto resultUserDto =  mappers.convertToUserDto(userEntity);
+
+        return resultUserDto;
+    }
+
+    public UserDto updateFind(UserDto newUserDto) {
+        if (userRepository.findById(newUserDto.getUserId()).isPresent()) {
+            // Если объект есть в базе данных, мы его обновляем
+            UserEntity updatedUserEntity = userRepository.save(mappers.convertToUserEntity(newUserDto));
+            return mappers.convertToUserDto(updatedUserEntity);
+        } else {
+            // Если объекта нет в базе данных, то нужно создать новый
+            newUserDto.setUserId(null);
+            UserEntity updatedUserEntity = userRepository.save(mappers.convertToUserEntity(newUserDto));
+            return mappers.convertToUserDto(updatedUserEntity);
+
+        }
     }
 }

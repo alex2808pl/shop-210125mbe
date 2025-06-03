@@ -8,11 +8,11 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Data
-@EqualsAndHashCode(exclude = "cart")
-@Getter
-@Setter
-@ToString(exclude = "cart")
+@Data
+//@EqualsAndHashCode(exclude = "cart")
+//@Getter
+//@Setter
+//@ToString(exclude = "cart")
 @Entity
 @Table(name="Users")
 @NoArgsConstructor
@@ -41,6 +41,8 @@ public class UserEntity {
     private Role role;
 
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private CartEntity cart;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.LAZY, orphanRemoval = true)

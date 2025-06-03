@@ -1,11 +1,13 @@
 package de.telran.shop210125mbe.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+//@Data
+@EqualsAndHashCode(exclude = {"user","product"})
+@Getter
+@Setter
+@ToString(exclude = {"user","product"})
 @Entity
 @Table(name = "Favorites")
 @NoArgsConstructor

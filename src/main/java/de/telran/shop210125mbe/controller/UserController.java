@@ -62,4 +62,12 @@ public class UserController {
     public UserShortDto updatePartProduct(@PathVariable Long id, @RequestParam String phone) throws Exception {
         return userService.updatePhoneNumber(id, phone);
     }
+
+    // вставку
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping
+    public UserDto update(@RequestBody UserDto newUser) {
+        return userService.updateFind(newUser);
+//        return userService.update(newUser);
+    }
 }

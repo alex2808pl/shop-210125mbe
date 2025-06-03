@@ -3,11 +3,11 @@ package de.telran.shop210125mbe.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-//@Data
-@EqualsAndHashCode(exclude = "user")
-@Getter
-@Setter
-@ToString(exclude = "user")
+@Data
+//@EqualsAndHashCode(exclude = "user")
+//@Getter
+//@Setter
+//@ToString(exclude = "user")
 @Entity
 @Table(name = "Cart")
 @NoArgsConstructor
