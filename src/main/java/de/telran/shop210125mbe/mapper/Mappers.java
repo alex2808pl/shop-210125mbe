@@ -19,7 +19,7 @@ public class Mappers {
     private final ModelMapper modelMapper;
 
     public UserDto convertToUserDto(UserEntity usersEntity) {
-        if(usersEntity==null) return new UserDto();
+        if(usersEntity==null) return new UserDto(); // дополнительніе проверки
 //        modelMapper.typeMap(UsersEntity.class, UserDto.class)
 //                .addMappings(mapper -> mapper.skip(UserDto::setEmail)); // исключаем этот метод из работы
         UserDto userDto = modelMapper.map(usersEntity, UserDto.class); //автомат

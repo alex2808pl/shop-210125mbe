@@ -30,5 +30,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     // запросы, генерируемые по имени метода
     List<UserEntity> findByNameContainingAndEmail(String name, String email);
 
-
 }
