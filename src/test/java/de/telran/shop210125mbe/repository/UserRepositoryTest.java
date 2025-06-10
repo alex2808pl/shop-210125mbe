@@ -50,11 +50,11 @@ class UserRepositoryTest {
         String emailExpected = "test@i.com";
 
         //Выполнение
-        UserEntity userEntityReturn = userRepositoryTest.findByEmailNativeQuery(emailExpected);
+        UserEntity userEntityActual = userRepositoryTest.findByEmailNativeQuery(emailExpected);
 
         //Проверка
-        assertNotNull(userEntityReturn);
-        assertEquals(emailExpected, userEntityReturn.getEmail());
+        assertNotNull(userEntityActual);
+        assertEquals(emailExpected, userEntityActual.getEmail());
 
     }
 
@@ -66,16 +66,16 @@ class UserRepositoryTest {
         String newNameUserExpected = "NewTestUser";
 
         //Выполнение
-        UserEntity userEntityReturn = userRepositoryTest.findById(expectedId).orElse(null);
-        assertNotNull(userEntityReturn);
-        assertNotNull(userEntityReturn.getUserId());
+        UserEntity userEntityActual = userRepositoryTest.findById(expectedId).orElse(null);
+        assertNotNull(userEntityActual);
+        assertNotNull(userEntityActual.getUserId());
 
-        userEntityReturn.setName(newNameUserExpected); //меняем имя
-        userEntityReturn = userRepositoryTest.save(userEntityReturn); //update
+        userEntityActual.setName(newNameUserExpected); //меняем имя
+        userEntityActual = userRepositoryTest.save(userEntityActual); //update
 
         //Проверка корректности выполнения теста
-        assertNotNull(userEntityReturn);
-        assertEquals(newNameUserExpected, userEntityReturn.getName());
+        assertNotNull(userEntityActual);
+        assertEquals(newNameUserExpected, userEntityActual.getName());
 
     }
 
