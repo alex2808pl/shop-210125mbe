@@ -4,6 +4,7 @@ import de.telran.shop210125mbe.configure.MapperUtil;
 import de.telran.shop210125mbe.model.dto.CartDto;
 import de.telran.shop210125mbe.model.dto.FavoriteDto;
 import de.telran.shop210125mbe.model.dto.UserDto;
+import de.telran.shop210125mbe.model.dto.UserShortDto;
 import de.telran.shop210125mbe.model.entity.CartEntity;
 import de.telran.shop210125mbe.model.entity.FavoriteEntity;
 import de.telran.shop210125mbe.model.entity.UserEntity;
@@ -36,6 +37,13 @@ public class Mappers {
         // преобразовываем вручную
         CartDto cartDto = convertToCartDto(usersEntity.getCart()); // второй связанный объект
         userDto.setCart(cartDto);
+        return userDto;
+    }
+
+    public UserShortDto convertToUserShortDto(UserEntity usersEntity) {
+
+        UserShortDto userDto = modelMapper.map(usersEntity, UserShortDto.class); //автомат
+
         return userDto;
     }
 
