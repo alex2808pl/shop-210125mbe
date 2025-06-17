@@ -14,10 +14,13 @@ import de.telran.shop210125mbe.repository.CartRepository;
 import de.telran.shop210125mbe.repository.FavoriteRepository;
 import de.telran.shop210125mbe.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.StaleObjectStateException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // будет создан конструктор, аргументами которого будут переменные класса private final
+@Validated
 public class UserService { //имя компонента по умолчанию userService
 
 //    @Autowired // DI через конструктор (в SpringBoot 3.0 и выше эту анотацию указывать не обязательно)
@@ -94,7 +98,7 @@ public class UserService { //имя компонента по умолчанию
         return usersShortDto;
     }
 
-    public UserDto create(UserDto newUserDto) {
+    public UserDto create(@Valid UserDto newUserDto) {
         if(newUserDto.getUserId()!=null)
             throw new IllegalArgumentException("userId должен быть неопределен");
 
@@ -122,7 +126,7 @@ public class UserService { //имя компонента по умолчанию
         return resultUserDto;
     }
 
-    public UserDto getById(Long id) {
+    public UserDto getById(@Min(0) Long id) {
         Optional<UserEntity> returnUserOptional = userRepository.findById(id);
         // returnUser == null -> new UserEntity() = NPE не произойдет
         UserEntity returnUserEntity = returnUserOptional.orElse(new UserEntity());

@@ -5,10 +5,12 @@ import de.telran.shop210125mbe.model.dto.UserShortDto;
 import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user")  //localhost:8088/user
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserService userService; //используем прямой компонент без интерфейса (возможно)
@@ -28,19 +31,20 @@ public class UserController {
 
     // Для Админа
     @GetMapping("/{id}")  // http://localhost:8088/user/2
-    public  UserDto getById(@PathVariable Long id) {
+    public  UserDto getById(@PathVariable /*@Min(0)*/ Long id) {
+        //if(id <0) бросаем исключение или возвращаем информацию об ошибке
         UserDto responseUser = userService.getById(id);
         return responseUser;
     }
 
     @GetMapping("/email/{valueEmail}")  // http://localhost:8088/user/email/a@i.com
-    public  UserDto getByEmail(@PathVariable String valueEmail) {
+    public  UserDto getByEmail(@PathVariable /*@Email*/ String valueEmail) {
         UserDto responseUser = userService.getByEmail(valueEmail);
         return responseUser;
     }
 
     @GetMapping("/name/{valueName}")  // http://localhost:8088/user/email/a@i.com
-    public  List<UserDto> getByName(@PathVariable String valueName) {
+    public  List<UserDto> getByName(@PathVariable @NotBlank @Size(min = 2, max = 20) String valueName) {
          return userService.getByName(valueName);
     }
 
@@ -53,7 +57,7 @@ public class UserController {
     // вставку
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserDto create(@RequestBody UserDto newUser) {
+    public UserDto create(@RequestBody @NotNull @Valid UserDto newUser) {
         return userService.create(newUser);
     }
 

@@ -3,6 +3,8 @@ package de.telran.shop210125mbe.model.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.telran.shop210125mbe.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -24,15 +26,17 @@ public class UserEntity {
     @Column(name = "UserID")
     private Long userId;
 
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false, length = 120)
     private String name;
 
-    @Column(name = "Email")
+    @Email
+    @Column(name = "Email", length = 50)
     private String email;
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
 
+    @NotNull
     @Column(name = "PasswordHash")
     private String passwordHash;
 
