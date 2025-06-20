@@ -25,7 +25,7 @@ public class UserController {
 
     // Для Клиента
     @GetMapping
-    List<UserShortDto> getAll() {
+    public List<UserShortDto> getAll() {
         return userService.getAll();
     }
 

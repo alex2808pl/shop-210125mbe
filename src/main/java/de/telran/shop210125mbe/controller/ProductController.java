@@ -1,8 +1,10 @@
 package de.telran.shop210125mbe.controller;
 
+import de.telran.shop210125mbe.aspect.LogTimeAnnotation;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.ProductServiceInterface;
 import de.telran.shop210125mbe.service.ProductServiceList;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,16 +24,21 @@ public class ProductController {
     @Qualifier("productServiceJpa")
     private ProductServiceInterface productServiceInterface; //productServiceJpa; //serviceProductList; //productServiceInterface; // = new ProductServiceList();
 
-
     // получение информации
     @GetMapping
     public List<Product> getAllProducts() {
+        // старт
+        long start = System.currentTimeMillis();
         System.out.println("Поиск информации");
-        return productServiceInterface.getAllProducts();
+        var listProducts =  productServiceInterface.getAllProducts();
+        // конечное время
+        System.out.println("Сервис getAllProducts отработал за - "+(System.currentTimeMillis() - start));
+        return listProducts;
     }
 
     // получение информации
     @GetMapping("/find/{id}") // http://localhost:8080/product/find/1
+    @LogTimeAnnotation
     public Product getProductById(@PathVariable(name = "id") Long productId) {
         System.out.println("Поиск информации по id");
         return productServiceInterface.getProductById(productId);

@@ -1,5 +1,6 @@
 package de.telran.shop210125mbe.controller;
 
+import de.telran.shop210125mbe.aspect.LogTimeAnnotation;
 import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.CategoryServiceInterface;
@@ -33,6 +34,7 @@ public class CategoryController {
         System.out.println("создается объект CategoryController");
     }
 
+    @LogTimeAnnotation
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<Category> categories = categoryServiceInterface.getAll();
