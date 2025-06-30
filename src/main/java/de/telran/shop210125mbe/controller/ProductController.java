@@ -4,6 +4,7 @@ import de.telran.shop210125mbe.aspect.LogTimeAnnotation;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.ProductServiceInterface;
 import de.telran.shop210125mbe.service.ProductServiceList;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,6 +71,7 @@ public class ProductController {
     // удаление
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @Hidden
     public void deleteProduct(@PathVariable Long id) {
         System.out.println("Произошло удаление");
         productServiceInterface.deleteProductById(id);

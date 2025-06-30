@@ -55,33 +55,33 @@ public class UserService { //имя компонента по умолчанию
 
     @PostConstruct
     void init() {
-        UserEntity userEntity1 = UserEntity.builder()
-                .name("Вася")
-                .email("v@i.com")
-                .role(Role.CLIENT)
-                .passwordHash("11111")
-                .phoneNumber("+49 1234 56 34 26")
-                .build();
-
-        userEntity1 = userRepository.save(userEntity1);
-
-        UserEntity userEntity2 = UserEntity.builder()
-                .name("Дуня")
-                .email("d@i.com")
-                .role(Role.ADMIN)
-                .passwordHash("22222")
-                .phoneNumber("+49 9745 56 34 26")
-                .build();
-
-        userEntity2 = userRepository.save(userEntity2);
-
-        FavoriteEntity favoriteEntity = new FavoriteEntity();
-        favoriteEntity.setUser(userEntity2);
-        favoriteEntity = favoriteRepository.save(favoriteEntity);
-
-        CartEntity cartEntity = new CartEntity();
-        cartEntity.setUser(userEntity2);
-        cartEntity = cartRepository.save(cartEntity);
+//        UserEntity userEntity1 = UserEntity.builder()
+//                .name("Вася")
+//                .email("v@i.com")
+//                .role(Role.CLIENT)
+//                .passwordHash("11111")
+//                .phoneNumber("+49 1234 56 34 26")
+//                .build();
+//
+//        userEntity1 = userRepository.save(userEntity1);
+//
+//        UserEntity userEntity2 = UserEntity.builder()
+//                .name("Дуня")
+//                .email("d@i.com")
+//                .role(Role.ADMIN)
+//                .passwordHash("22222")
+//                .phoneNumber("+49 9745 56 34 26")
+//                .build();
+//
+//        userEntity2 = userRepository.save(userEntity2);
+//
+//        FavoriteEntity favoriteEntity = new FavoriteEntity();
+//        favoriteEntity.setUser(userEntity2);
+//        favoriteEntity = favoriteRepository.save(favoriteEntity);
+//
+//        CartEntity cartEntity = new CartEntity();
+//        cartEntity.setUser(userEntity2);
+//        cartEntity = cartRepository.save(cartEntity);
     }
 
     public List<UserShortDto> getAll() {

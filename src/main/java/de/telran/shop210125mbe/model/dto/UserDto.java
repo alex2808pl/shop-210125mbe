@@ -2,6 +2,8 @@ package de.telran.shop210125mbe.model.dto;
 
 import de.telran.shop210125mbe.model.entity.FavoriteEntity;
 import de.telran.shop210125mbe.model.enums.Role;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,11 +38,13 @@ public class UserDto {
     private String passwordHash;
 
 //    @NotNull
+    @Schema(description = "Роль пользователя", allowableValues = {"CLIENT", "ADMIN"})
     private String role;
 
     @EqualsAndHashCode.Exclude
     private Set<FavoriteDto> favorites = new HashSet<>();
 
 //private Set<FavoritesDto> favorites = new HashSet<>();
+    @Hidden
     private CartDto cart;
 }

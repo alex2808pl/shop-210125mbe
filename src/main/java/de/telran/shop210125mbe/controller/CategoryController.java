@@ -4,6 +4,7 @@ import de.telran.shop210125mbe.aspect.LogTimeAnnotation;
 import de.telran.shop210125mbe.pojo.Category;
 import de.telran.shop210125mbe.pojo.Product;
 import de.telran.shop210125mbe.service.CategoryServiceInterface;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/category") //localhost:8080/category
 @RequiredArgsConstructor
+@Hidden
 public class CategoryController {
 
 //    public CategoryController(@Qualifier("categoryJdbc") CategoryServiceInterface categoryServiceInterface) {
